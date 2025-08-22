@@ -1,0 +1,63 @@
+{
+  "name": "@authapex/react",
+  "version": "0.1.0",
+  "description": "A helper React library for AuthApex platform.",
+  "bugs": {
+    "url": "https://github.com/AuthApex/authapex-react/issues",
+    "email": "gtomyasek@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/AuthApex/authapex-react.git"
+  },
+  "license": "GPL-3.0-or-later",
+  "author": "GTomy",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "rimraf dist && rollup -c",
+    "generate-index-files": "npx ctix build",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "release": "standard-version --release-as",
+    "sort-package-json": "sort-package-json"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@rollup/plugin-alias": "^5.1.1",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "ctix": "^2.7.0",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "prettier": "3.5.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.34.7",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-delete": "^2.1.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "sort-package-json": "^2.14.0",
+    "standard-version": "^9.5.0",
+    "typescript-eslint": "^8.24.0"
+  },
+  "peerDependencies": {
+    "@authapex/core": "^0.1.1",
+    "@heroicons/react": "2.2.0",
+    "@tanstack/react-query": "^5.85.5",
+    "axios": "^1.8.4",
+    "gtomy-lib": "^2.2.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
