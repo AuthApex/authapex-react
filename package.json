@@ -20,7 +20,6 @@
     "generate-index-files": "npx ctix build",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
-    "release": "standard-version --release-as",
     "sort-package-json": "sort-package-json"
   },
   "devDependencies": {
