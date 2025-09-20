@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { QueryObserverResult, RefetchOptions, useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { showToast } from 'gtomy-lib';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
@@ -13,15 +13,30 @@ export interface UseAuth {
   isError: boolean;
   logout: () => Promise<void>;
   login: () => void;
+  error: Error | null;
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<User | null | undefined, Error>>;
+}
+
+async function getUser(backendApi: string, userPath: string) {
+  return axios
+    .get<User>(backendApi + userPath, { withCredentials: true })
+    .then((response) => response.data)
+    .catch((error) => {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          return null;
+        }
+      }
+      throw error;
+    });
 }
 
 export function useAuth(): UseAuth {
   const { backendApi, logoutPath, userPath, authApi, app, redirectUrl } = useAuthContext();
-  const { status, data } = useQuery(
+  const { status, data, error, refetch } = useQuery(
     {
       queryKey: [backendApi, userPath],
-      queryFn: () =>
-        axios.get<User>(backendApi + userPath, { withCredentials: true }).then((response) => response.data),
+      queryFn: () => getUser(backendApi, userPath),
     },
     authApexQueryClient
   );
@@ -45,8 +60,11 @@ export function useAuth(): UseAuth {
   };
 
   const logout = async () => {
-    await axios.post(backendApi + logoutPath).catch((error) => console.error(error));
+    await axios
+      .post(backendApi + logoutPath, undefined, { withCredentials: true })
+      .catch((error) => console.error(error));
     authApexQueryClient.getQueryCache().clear();
+    await refetch();
   };
 
   return {
@@ -55,5 +73,7 @@ export function useAuth(): UseAuth {
     isError: status === 'error',
     logout,
     login,
+    error,
+    refetch,
   };
 }
