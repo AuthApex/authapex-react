@@ -10,7 +10,7 @@ export interface PermissionMessages {
 }
 
 export interface PermissionGuardProps extends PropsWithChildren {
-  messages: AuthGuardMessages & PermissionMessages;
+  messages?: AuthGuardMessages & PermissionMessages;
   requiredRole: PermRoles;
 }
 
@@ -28,7 +28,10 @@ function PermissionGuardInnter({ children, messages, requiredRole }: PermissionG
   const { app } = useAuthContext();
   const permissionService = useMemo(() => new PermissionService(app), [app]);
 
-  if (permissionService.hasPermission(user, requiredRole)) {
+  if (!permissionService.hasPermission(user, requiredRole)) {
+    if (!messages) {
+      return null;
+    }
     return <Typography as="div">{messages.userMissingRole}</Typography>;
   }
 
