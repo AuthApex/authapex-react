@@ -31,6 +31,7 @@ async function getUser(backendApi: string, userPath: string) {
     });
 }
 
+// TODO: refresh token support
 export function useAuth(): UseAuth {
   const { backendApi, logoutPath, userPath, authApi, app, redirectUrl } = useAuthContext();
   const { status, data, error, refetch } = useQuery(
