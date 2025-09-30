@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/AuthApex/authapex-react/compare/v0.1.2...v0.1.3) (2025-09-30)
+
+
+### Bug Fixes
+
+* rename `displayMessages` to `displayStates` in `AuthGuard` and `PermissionGuard`, use `translations.errors` for error messages ([75b863d](https://github.com/AuthApex/authapex-react/commit/75b863d246edb368d0bf1f98c492570cc1ed2158))
+* update `AuthContextTranslations` to integrate `ErrorTranslations`, make `loadingMessage` optional ([635dbd3](https://github.com/AuthApex/authapex-react/commit/635dbd3403878aaa559bc52345fd0853eaf8fc52))
+* upgrade `gtomy-lib` to v2.3.2 in dependencies ([94bd0db](https://github.com/AuthApex/authapex-react/commit/94bd0dbb29b341a6f6107afbfdc92e929d73e565))
+
 ### [0.1.2](https://github.com/AuthApex/authapex-react/compare/v0.1.1...v0.1.2) (2025-09-30)
 
 
