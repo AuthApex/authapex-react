@@ -1,6 +1,6 @@
 {
   "name": "@authapex/react",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A helper React library for AuthApex platform.",
   "bugs": {
     "url": "https://github.com/AuthApex/authapex-react/issues",

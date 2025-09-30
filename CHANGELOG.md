@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/AuthApex/authapex-react/compare/v0.1.1...v0.1.2) (2025-09-30)
+
+
+### Bug Fixes
+
+* add retry logic for queries in `queryClient` and ignore retries for 401 errors, add TODO for token refresh ([b72bf54](https://github.com/AuthApex/authapex-react/commit/b72bf547559aba35e61f07c624a3337dea658504))
+* refactor `AuthGuard` and `PermissionGuard` to use `useAuthContext` translations, replace `messages` with `displayMessages` ([9885861](https://github.com/AuthApex/authapex-react/commit/9885861c9cd28f4bc99eb6fa2943807c635deb36))
+* refactor `queryClient` retry logic and enhance `useAuth` with translations for error messages ([1b04374](https://github.com/AuthApex/authapex-react/commit/1b04374f6bdb6d797564729aa2807636d44e1b21))
+
 ### [0.1.1](https://github.com/AuthApex/authapex-react/compare/v0.1.0...v0.1.1) (2025-09-20)
 
 
