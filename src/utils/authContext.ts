@@ -1,10 +1,11 @@
 import { createContext } from 'react';
+import { ErrorTranslations } from 'gtomy-lib';
 
 export interface AuthContextTranslations {
-  genericError: string;
+  errors: ErrorTranslations;
   authGuard: {
     userNotLoggedIn: string;
-    loading: string;
+    loadingMessage?: string;
   };
   permissionGuard: {
     userMissingRole: string;
