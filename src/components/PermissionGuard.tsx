@@ -6,26 +6,28 @@ import { useAuthContext } from '@/hooks/useAuthContext';
 import { Typography } from 'gtomy-lib';
 
 export interface PermissionGuardProps extends PropsWithChildren {
-  displayMessages?: boolean;
+  displayStates?: boolean;
   requiredRole: PermRoles;
 }
 
-export function PermissionGuard({ children, ...props }: PermissionGuardProps) {
+export function PermissionGuard({ children, displayStates, ...props }: PermissionGuardProps) {
   return (
-    <AuthGuard>
-      <PermissionGuardInnter {...props}>{children}</PermissionGuardInnter>
+    <AuthGuard displayStates={displayStates}>
+      <PermissionGuardInnter displayStates={displayStates} {...props}>
+        {children}
+      </PermissionGuardInnter>
     </AuthGuard>
   );
 }
 
-function PermissionGuardInnter({ children, requiredRole, displayMessages }: PermissionGuardProps) {
+function PermissionGuardInnter({ children, requiredRole, displayStates }: PermissionGuardProps) {
   const { translations } = useAuthContext();
   const { user } = useForcedAuth();
   const { app } = useAuthContext();
   const permissionService = useMemo(() => new PermissionService(app), [app]);
 
   if (!permissionService.hasPermission(user, requiredRole)) {
-    if (!displayMessages) {
+    if (!displayStates) {
       return null;
     }
     return <Typography as="div">{translations.permissionGuard.userMissingRole}</Typography>;

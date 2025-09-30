@@ -4,42 +4,29 @@ import { ErrorState, LoadingState, Typography } from 'gtomy-lib';
 import { useAuthContext } from '@/hooks/useAuthContext';
 
 export interface AuthGuardProps extends PropsWithChildren {
-  displayMessages?: boolean;
+  displayStates?: boolean;
 }
 
-export function AuthGuard({ displayMessages, children }: AuthGuardProps) {
+export function AuthGuard({ displayStates, children }: AuthGuardProps) {
   const { translations } = useAuthContext();
   const { isLoading, isError, user, error, refetch } = useAuth();
 
   if (isLoading) {
-    if (!displayMessages) {
+    if (!displayStates) {
       return null;
     }
-    return <LoadingState message={translations.authGuard.loading} showLoading />;
+    return <LoadingState message={translations.authGuard.loadingMessage} />;
   }
 
   if (isError) {
-    if (!displayMessages) {
+    if (!displayStates) {
       return null;
     }
-    // TODO: Add translation
-    return (
-      <ErrorState
-        error={error}
-        retry={refetch}
-        showRetry
-        translation={{
-          error: 'Error occured when loading user.',
-          retry: 'Try again',
-          badGateway: 'Server unreachable',
-          noPermission: "You don't have permission to view this.",
-        }}
-      />
-    );
+    return <ErrorState error={error} retry={refetch} showRetry translation={translations.errors} />;
   }
 
   if (!user) {
-    if (!displayMessages) {
+    if (!displayStates) {
       return null;
     }
     return <Typography as="div">{translations.authGuard.userNotLoggedIn}</Typography>;
