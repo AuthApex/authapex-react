@@ -2,6 +2,13 @@ import { createContext } from 'react';
 
 export interface AuthContextTranslations {
   genericError: string;
+  authGuard: {
+    userNotLoggedIn: string;
+    loading: string;
+  };
+  permissionGuard: {
+    userMissingRole: string;
+  };
 }
 
 export interface AuthContext {

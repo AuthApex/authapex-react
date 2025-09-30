@@ -1,38 +1,34 @@
 import { PropsWithChildren, useMemo } from 'react';
-import { AuthGuard, AuthGuardMessages } from '@/components/AuthGuard';
+import { AuthGuard } from '@/components/AuthGuard';
 import { useForcedAuth } from '@/hooks/useForcedAuth';
 import { PermissionService, PermRoles } from '@authapex/core';
 import { useAuthContext } from '@/hooks/useAuthContext';
 import { Typography } from 'gtomy-lib';
 
-export interface PermissionMessages {
-  userMissingRole: string;
-}
-
 export interface PermissionGuardProps extends PropsWithChildren {
-  messages?: AuthGuardMessages & PermissionMessages;
+  displayMessages?: boolean;
   requiredRole: PermRoles;
 }
 
 export function PermissionGuard({ children, ...props }: PermissionGuardProps) {
-  const { messages } = props;
   return (
-    <AuthGuard messages={messages}>
+    <AuthGuard>
       <PermissionGuardInnter {...props}>{children}</PermissionGuardInnter>
     </AuthGuard>
   );
 }
 
-function PermissionGuardInnter({ children, messages, requiredRole }: PermissionGuardProps) {
+function PermissionGuardInnter({ children, requiredRole, displayMessages }: PermissionGuardProps) {
+  const { translations } = useAuthContext();
   const { user } = useForcedAuth();
   const { app } = useAuthContext();
   const permissionService = useMemo(() => new PermissionService(app), [app]);
 
   if (!permissionService.hasPermission(user, requiredRole)) {
-    if (!messages) {
+    if (!displayMessages) {
       return null;
     }
-    return <Typography as="div">{messages.userMissingRole}</Typography>;
+    return <Typography as="div">{translations.permissionGuard.userMissingRole}</Typography>;
   }
 
   return children;

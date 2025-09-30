@@ -1,28 +1,25 @@
 import { useAuth } from '@/hooks/useAuth';
 import { PropsWithChildren } from 'react';
 import { ErrorState, LoadingState, Typography } from 'gtomy-lib';
-
-export interface AuthGuardMessages {
-  userNotLoggedIn: string;
-  loading: string;
-}
+import { useAuthContext } from '@/hooks/useAuthContext';
 
 export interface AuthGuardProps extends PropsWithChildren {
-  messages?: AuthGuardMessages;
+  displayMessages?: boolean;
 }
 
-export function AuthGuard({ messages, children }: AuthGuardProps) {
+export function AuthGuard({ displayMessages, children }: AuthGuardProps) {
+  const { translations } = useAuthContext();
   const { isLoading, isError, user, error, refetch } = useAuth();
 
   if (isLoading) {
-    if (!messages) {
+    if (!displayMessages) {
       return null;
     }
-    return <LoadingState message={messages.loading} showLoading />;
+    return <LoadingState message={translations.authGuard.loading} showLoading />;
   }
 
   if (isError) {
-    if (!messages) {
+    if (!displayMessages) {
       return null;
     }
     // TODO: Add translation
@@ -42,10 +39,10 @@ export function AuthGuard({ messages, children }: AuthGuardProps) {
   }
 
   if (!user) {
-    if (!messages) {
+    if (!displayMessages) {
       return null;
     }
-    return <Typography as="div">{messages.userNotLoggedIn}</Typography>;
+    return <Typography as="div">{translations.authGuard.userNotLoggedIn}</Typography>;
   }
 
   return children;
