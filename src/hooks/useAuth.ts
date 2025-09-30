@@ -33,7 +33,7 @@ async function getUser(backendApi: string, userPath: string) {
 
 // TODO: refresh token support
 export function useAuth(): UseAuth {
-  const { backendApi, logoutPath, userPath, authApi, app, redirectUrl } = useAuthContext();
+  const { backendApi, logoutPath, userPath, authApi, app, redirectUrl, translations } = useAuthContext();
   const { status, data, error, refetch } = useQuery(
     {
       queryKey: [backendApi, userPath],
@@ -51,10 +51,10 @@ export function useAuth(): UseAuth {
       showToast({
         icon: ExclamationCircleIcon,
         iconColor: 'error',
-        message: 'Something went wrong. Please try again later.',
+        message: translations.genericError,
       });
     }
-  }, [status]);
+  }, [status, translations]);
 
   const login = () => {
     window.location.assign(authorizationService.createAuthorizeUrl());
