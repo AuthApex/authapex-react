@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/AuthApex/authapex-react/compare/v0.1.3...v0.1.4) (2025-10-03)
+
+
+### Bug Fixes
+
+* refactor `useAuth` to improve typings, standardize state handling, and enhance callback memoization ([dd29d4f](https://github.com/AuthApex/authapex-react/commit/dd29d4fe4db480c4931d2dc00e3bc6ed67b3e1fe))
+* refactor `useForcedAuth` to improve typings and ensure memoized state handling ([6af80fa](https://github.com/AuthApex/authapex-react/commit/6af80fae95b7ca1da3bc2803f01e0896bf091b1c))
+* update dependencies for React v18 and v19 compatibility, upgrade axios to v1.12.0 ([6dbaa8d](https://github.com/AuthApex/authapex-react/commit/6dbaa8d5ed636b786b33bb63cc9f0b2ae34c3647))
+
 ### [0.1.3](https://github.com/AuthApex/authapex-react/compare/v0.1.2...v0.1.3) (2025-09-30)
 
 
