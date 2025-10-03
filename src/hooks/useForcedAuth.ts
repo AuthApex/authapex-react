@@ -1,19 +1,14 @@
-import { useAuth, UseAuth } from '@/hooks/useAuth';
-import { User } from '@authapex/core';
+import { useAuth, UseAuthLoadedLoggedIn } from '@/hooks/useAuth';
+import { useMemo } from 'react';
 
-export interface UseForcedAuth extends Omit<UseAuth, 'user'> {
-  user: User;
-}
-
-export function useForcedAuth(): UseForcedAuth {
+export function useForcedAuth(): UseAuthLoadedLoggedIn {
   const auth = useAuth();
 
-  if (!auth.user) {
-    throw new Error('User is not authenticated');
-  }
+  return useMemo(() => {
+    if (auth.status !== 'success' || !auth.isAuthenticated) {
+      throw new Error('User is not authenticated');
+    }
 
-  return {
-    ...auth,
-    user: auth.user,
-  };
+    return auth;
+  }, [auth]);
 }
