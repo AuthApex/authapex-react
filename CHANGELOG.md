@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/AuthApex/authapex-react/compare/v0.1.4...v0.1.5) (2025-10-03)
+
+
+### Bug Fixes
+
+* update typings in `AuthProvider`, `AuthGuard`, and `PermissionGuard` to use `ReactElement` and `ReactNode` ([f090ab3](https://github.com/AuthApex/authapex-react/commit/f090ab39f355581b1ba3a40afa3d3aec33304050))
+
 ### [0.1.4](https://github.com/AuthApex/authapex-react/compare/v0.1.3...v0.1.4) (2025-10-03)
 
 
