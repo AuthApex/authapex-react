@@ -9,23 +9,23 @@ export interface AuthGuardProps extends PropsWithChildren {
 
 export function AuthGuard({ displayStates, children }: AuthGuardProps) {
   const { translations } = useAuthContext();
-  const { isLoading, isError, user, error, refetch } = useAuth();
+  const { status, isAuthenticated, error, refetch } = useAuth();
 
-  if (isLoading) {
+  if (status === 'pending') {
     if (!displayStates) {
       return null;
     }
     return <LoadingState message={translations.authGuard.loadingMessage} />;
   }
 
-  if (isError) {
+  if (status === 'error') {
     if (!displayStates) {
       return null;
     }
     return <ErrorState error={error} retry={refetch} showRetry translation={translations.errors} />;
   }
 
-  if (!user) {
+  if (!isAuthenticated) {
     if (!displayStates) {
       return null;
     }

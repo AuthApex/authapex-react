@@ -1,5 +1,5 @@
 import { QueryObserverResult, RefetchOptions, useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { showToast } from 'gtomy-lib';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { authApexQueryClient } from '@/utils/queryClient';
@@ -7,19 +7,45 @@ import axios from 'axios';
 import { useAuthContext } from '@/hooks/useAuthContext';
 import { AuthorizationService, User } from '@authapex/core';
 
-export interface UseAuth {
-  user: User | null;
-  isLoading: boolean;
-  isError: boolean;
+export interface UseAuthBase {
   logout: () => Promise<void>;
   login: () => void;
-  error: Error | null;
   refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<User | null | undefined, Error>>;
 }
 
+export interface UseAuthLoadedNotLoggedIn extends UseAuthBase {
+  isAuthenticated: false;
+  user: null;
+  status: 'success';
+  error: null;
+}
+
+export interface UseAuthLoadedLoggedIn extends UseAuthBase {
+  isAuthenticated: true;
+  user: User;
+  status: 'success';
+  error: null;
+}
+
+export interface UseAuthError extends UseAuthBase {
+  isAuthenticated: null;
+  user: null;
+  status: 'error';
+  error: Error;
+}
+
+export interface UseAuthLoading extends UseAuthBase {
+  isAuthenticated: null;
+  user: null;
+  status: 'pending';
+  error: null;
+}
+
+export type UseAuth = UseAuthLoadedNotLoggedIn | UseAuthLoadedLoggedIn | UseAuthError | UseAuthLoading;
+
 async function getUser(backendApi: string, userPath: string) {
   return axios
-    .get<User>(backendApi + userPath, { withCredentials: true })
+    .get<User>(backendApi + userPath)
     .then((response) => response.data)
     .catch((error) => {
       if (axios.isAxiosError(error)) {
@@ -51,30 +77,64 @@ export function useAuth(): UseAuth {
       showToast({
         icon: ExclamationCircleIcon,
         iconColor: 'error',
-        message: translations.genericError,
+        message: translations.errors.error,
       });
     }
   }, [status, translations]);
 
-  const login = () => {
+  const login = useCallback(() => {
     window.location.assign(authorizationService.createAuthorizeUrl());
-  };
+  }, [authorizationService]);
 
-  const logout = async () => {
-    await axios
-      .post(backendApi + logoutPath, undefined, { withCredentials: true })
-      .catch((error) => console.error(error));
+  const logout = useCallback(async () => {
+    await axios.post(backendApi + logoutPath, undefined).catch((error) => console.error(error));
     authApexQueryClient.getQueryCache().clear();
     await refetch();
-  };
+  }, [backendApi, logoutPath, refetch]);
 
-  return {
-    user: data ?? null,
-    isLoading: status === 'pending',
-    isError: status === 'error',
-    logout,
-    login,
-    error,
-    refetch,
-  };
+  return useMemo(() => {
+    if (status === 'error') {
+      return {
+        user: null,
+        isAuthenticated: null,
+        status: 'error',
+        error,
+        refetch,
+        login,
+        logout,
+      };
+    }
+    if (status === 'pending') {
+      return {
+        user: null,
+        isAuthenticated: null,
+        status: 'pending',
+        error: null,
+        refetch,
+        logout,
+        login,
+      };
+    }
+    if (data) {
+      return {
+        user: data,
+        isAuthenticated: true,
+        status: 'success',
+        error: null,
+        logout,
+        login,
+        refetch,
+      };
+    } else {
+      return {
+        user: null,
+        isAuthenticated: false,
+        status: 'success',
+        error: null,
+        logout,
+        login,
+        refetch,
+      };
+    }
+  }, [data, error, login, logout, refetch, status]);
 }
