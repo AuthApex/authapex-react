@@ -1,4 +1,4 @@
-import { PropsWithChildren, useMemo } from 'react';
+import { PropsWithChildren, ReactNode, useMemo } from 'react';
 import { AuthGuard } from '@/components/AuthGuard';
 import { useForcedAuth } from '@/hooks/useForcedAuth';
 import { PermissionService, PermRoles } from '@authapex/core';
@@ -10,7 +10,7 @@ export interface PermissionGuardProps extends PropsWithChildren {
   requiredRole: PermRoles;
 }
 
-export function PermissionGuard({ children, displayStates, ...props }: PermissionGuardProps) {
+export function PermissionGuard({ children, displayStates, ...props }: PermissionGuardProps): ReactNode {
   return (
     <AuthGuard displayStates={displayStates}>
       <PermissionGuardInnter displayStates={displayStates} {...props}>
@@ -20,7 +20,7 @@ export function PermissionGuard({ children, displayStates, ...props }: Permissio
   );
 }
 
-function PermissionGuardInnter({ children, requiredRole, displayStates }: PermissionGuardProps) {
+function PermissionGuardInnter({ children, requiredRole, displayStates }: PermissionGuardProps): ReactNode {
   const { translations } = useAuthContext();
   const { user } = useForcedAuth();
   const { app } = useAuthContext();

@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks/useAuth';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import { ErrorState, LoadingState, Typography } from 'gtomy-lib';
 import { useAuthContext } from '@/hooks/useAuthContext';
 
@@ -7,7 +7,7 @@ export interface AuthGuardProps extends PropsWithChildren {
   displayStates?: boolean;
 }
 
-export function AuthGuard({ displayStates, children }: AuthGuardProps) {
+export function AuthGuard({ displayStates, children }: AuthGuardProps): ReactNode {
   const { translations } = useAuthContext();
   const { status, isAuthenticated, error, refetch } = useAuth();
 
