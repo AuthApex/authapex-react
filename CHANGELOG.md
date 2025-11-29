@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/AuthApex/authapex-react/compare/v0.1.6...v0.2.0) (2025-11-29)
+
+
+### Features
+
+* add `ProfileImage` component ([9e0177d](https://github.com/AuthApex/authapex-react/commit/9e0177ddf67b7693b9857f23ab002c16f15f16fe))
+
+
+### Bug Fixes
+
+* npm audit ([2c5404a](https://github.com/AuthApex/authapex-react/commit/2c5404acf4c82ef5aa2b08b4046f80b7ca31d2c4))
+
 ### [0.1.6](https://github.com/AuthApex/authapex-react/compare/v0.1.5...v0.1.6) (2025-10-03)
 
 
