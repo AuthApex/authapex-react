@@ -1,6 +1,7 @@
 export * from './components/AuthGuard';
 export * from './components/AuthProvider';
 export * from './components/PermissionGuard';
+export * from './components/ProfileImage';
 export * from './hooks/useAuth';
 export * from './hooks/useAuthContext';
 export * from './hooks/useForcedAuth';
