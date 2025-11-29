@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/AuthApex/authapex-react/compare/v0.1.5...v0.1.6) (2025-10-03)
+
+
+### Bug Fixes
+
+* upgrade `@authapex/core` to v0.2.0 in peerDependencies and lockfile ([e81a305](https://github.com/AuthApex/authapex-react/commit/e81a30559a14b5cc041f42d424dd28551176bb9d))
+
 ### [0.1.5](https://github.com/AuthApex/authapex-react/compare/v0.1.4...v0.1.5) (2025-10-03)
 
 
