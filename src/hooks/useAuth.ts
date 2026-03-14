@@ -5,12 +5,13 @@ import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { authApexQueryClient } from '@/utils/queryClient';
 import axios from 'axios';
 import { useAuthContext } from '@/hooks/useAuthContext';
-import { AuthorizationService, User } from '@authapex/core';
+import { AuthorizationService, PermissionService, PermRoles, User } from '@authapex/core';
 
 export interface UseAuthBase {
   logout: () => Promise<void>;
   login: () => void;
   refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<User | null | undefined, Error>>;
+  hasPermission: (permission: PermRoles) => boolean;
 }
 
 export interface UseAuthLoadedNotLoggedIn extends UseAuthBase {
@@ -71,6 +72,7 @@ export function useAuth(): UseAuth {
     () => new AuthorizationService(authApi, app, redirectUrl),
     [app, authApi, redirectUrl]
   );
+  const permissionService = useMemo(() => new PermissionService(app), [app]);
 
   useEffect(() => {
     if (status === 'error') {
@@ -92,6 +94,16 @@ export function useAuth(): UseAuth {
     await refetch();
   }, [backendApi, logoutPath, refetch]);
 
+  const hasPermission = useCallback(
+    (permission: PermRoles) => {
+      if (data == null) {
+        return false;
+      }
+      return permissionService.hasPermission(data, permission);
+    },
+    [data, permissionService]
+  );
+
   return useMemo(() => {
     if (status === 'error') {
       return {
@@ -102,6 +114,7 @@ export function useAuth(): UseAuth {
         refetch,
         login,
         logout,
+        hasPermission,
       };
     }
     if (status === 'pending') {
@@ -113,6 +126,7 @@ export function useAuth(): UseAuth {
         refetch,
         logout,
         login,
+        hasPermission,
       };
     }
     if (data) {
@@ -124,6 +138,7 @@ export function useAuth(): UseAuth {
         logout,
         login,
         refetch,
+        hasPermission,
       };
     } else {
       return {
@@ -134,7 +149,8 @@ export function useAuth(): UseAuth {
         logout,
         login,
         refetch,
+        hasPermission,
       };
     }
-  }, [data, error, login, logout, refetch, status]);
+  }, [data, error, hasPermission, login, logout, refetch, status]);
 }
