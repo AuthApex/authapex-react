@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/AuthApex/authapex-react/compare/v0.2.1...v0.2.2) (2026-03-14)
+
+
+### Bug Fixes
+
+* inline `queryKey` in `useAuth`, clean up `logout` dependencies ([0cc343b](https://github.com/AuthApex/authapex-react/commit/0cc343bbdabeacdf16b9f576526c1329b45975dd))
+
 ### [0.2.1](https://github.com/AuthApex/authapex-react/compare/v0.2.0...v0.2.1) (2026-03-14)
 
 
