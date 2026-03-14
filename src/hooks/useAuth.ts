@@ -1,4 +1,4 @@
-import { QueryObserverResult, RefetchOptions, useQuery } from '@tanstack/react-query';
+import { QueryKey, useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo } from 'react';
 import { showToast } from 'gtomy-lib';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
@@ -10,7 +10,6 @@ import { AuthorizationService, PermissionService, PermRoles, User } from '@autha
 export interface UseAuthBase {
   logout: () => Promise<void>;
   login: () => void;
-  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<User | null | undefined, Error>>;
   hasPermission: (permission: PermRoles) => boolean;
 }
 
@@ -61,9 +60,10 @@ async function getUser(backendApi: string, userPath: string) {
 // TODO: refresh token support
 export function useAuth(): UseAuth {
   const { backendApi, logoutPath, userPath, authApi, app, redirectUrl, translations } = useAuthContext();
-  const { status, data, error, refetch } = useQuery(
+  const queryKey: QueryKey = useMemo(() => [backendApi, userPath], [backendApi, userPath]);
+  const { status, data, error } = useQuery(
     {
-      queryKey: [backendApi, userPath],
+      queryKey: queryKey,
       queryFn: () => getUser(backendApi, userPath),
     },
     authApexQueryClient
@@ -91,8 +91,8 @@ export function useAuth(): UseAuth {
   const logout = useCallback(async () => {
     await axios.post(backendApi + logoutPath, undefined).catch((error) => console.error(error));
     authApexQueryClient.getQueryCache().clear();
-    await refetch();
-  }, [backendApi, logoutPath, refetch]);
+    await authApexQueryClient.resetQueries({ queryKey });
+  }, [backendApi, logoutPath, queryKey]);
 
   const hasPermission = useCallback(
     (permission: PermRoles) => {
@@ -111,7 +111,6 @@ export function useAuth(): UseAuth {
         isAuthenticated: null,
         status: 'error',
         error,
-        refetch,
         login,
         logout,
         hasPermission,
@@ -123,7 +122,6 @@ export function useAuth(): UseAuth {
         isAuthenticated: null,
         status: 'pending',
         error: null,
-        refetch,
         logout,
         login,
         hasPermission,
@@ -137,7 +135,6 @@ export function useAuth(): UseAuth {
         error: null,
         logout,
         login,
-        refetch,
         hasPermission,
       };
     } else {
@@ -148,9 +145,8 @@ export function useAuth(): UseAuth {
         error: null,
         logout,
         login,
-        refetch,
         hasPermission,
       };
     }
-  }, [data, error, hasPermission, login, logout, refetch, status]);
+  }, [data, error, hasPermission, login, logout, status]);
 }
