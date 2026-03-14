@@ -3,7 +3,8 @@ import { AuthGuard } from '@/components/AuthGuard';
 import { useForcedAuth } from '@/hooks/useForcedAuth';
 import { PermissionService, PermRoles } from '@authapex/core';
 import { useAuthContext } from '@/hooks/useAuthContext';
-import { Typography } from 'gtomy-lib';
+import { Icon, Typography } from 'gtomy-lib';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 export interface PermissionGuardProps extends PropsWithChildren {
   displayStates?: boolean;
@@ -30,7 +31,12 @@ function PermissionGuardInnter({ children, requiredRole, displayStates }: Permis
     if (!displayStates) {
       return null;
     }
-    return <Typography as="div">{translations.permissionGuard.userMissingRole}</Typography>;
+    return (
+      <div role="alert" className="alert alert-warning">
+        <Icon icon={ExclamationTriangleIcon} size="lg" />
+        <Typography>{translations.permissionGuard.userMissingRole}</Typography>
+      </div>
+    );
   }
 
   return children;
