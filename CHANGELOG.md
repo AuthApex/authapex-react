@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/AuthApex/authapex-react/compare/v0.2.0...v0.2.1) (2026-03-14)
+
+
+### Features
+
+* add `hasPermission` method to `useAuth`, integrate `PermissionService` ([df583cb](https://github.com/AuthApex/authapex-react/commit/df583cb46a6c7af1f7b1752c69f290b4df31d852))
+* add `tailwind-merge` dependency to project dependencies ([43db297](https://github.com/AuthApex/authapex-react/commit/43db297039f3a18b2b0266ab69dfb0983ec4bd15))
+* enhance error handling in `AuthGuard` and `PermissionGuard` with improved alerts, icons, and styling ([108ede6](https://github.com/AuthApex/authapex-react/commit/108ede6f91872b2278f26acb6eaa1907b0d24e5c))
+
+
+### Bug Fixes
+
+* remove unused `refetch` in `useAuth` and refactor `logout` to use `resetQueries` ([505941d](https://github.com/AuthApex/authapex-react/commit/505941dd371b911bef973a5677f8d33c1183cf5d))
+
 ## [0.2.0](https://github.com/AuthApex/authapex-react/compare/v0.1.6...v0.2.0) (2025-11-29)
 
 
