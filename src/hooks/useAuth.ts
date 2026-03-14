@@ -1,4 +1,4 @@
-import { QueryKey, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo } from 'react';
 import { showToast } from 'gtomy-lib';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
@@ -60,10 +60,9 @@ async function getUser(backendApi: string, userPath: string) {
 // TODO: refresh token support
 export function useAuth(): UseAuth {
   const { backendApi, logoutPath, userPath, authApi, app, redirectUrl, translations } = useAuthContext();
-  const queryKey: QueryKey = useMemo(() => [backendApi, userPath], [backendApi, userPath]);
   const { status, data, error } = useQuery(
     {
-      queryKey: queryKey,
+      queryKey: [backendApi, userPath],
       queryFn: () => getUser(backendApi, userPath),
     },
     authApexQueryClient
@@ -90,9 +89,8 @@ export function useAuth(): UseAuth {
 
   const logout = useCallback(async () => {
     await axios.post(backendApi + logoutPath, undefined).catch((error) => console.error(error));
-    authApexQueryClient.getQueryCache().clear();
-    await authApexQueryClient.resetQueries({ queryKey });
-  }, [backendApi, logoutPath, queryKey]);
+    await authApexQueryClient.resetQueries();
+  }, [backendApi, logoutPath]);
 
   const hasPermission = useCallback(
     (permission: PermRoles) => {
