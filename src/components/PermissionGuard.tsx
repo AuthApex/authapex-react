@@ -6,28 +6,18 @@ import { useAuthContext } from '@/hooks/useAuthContext';
 import { Icon, Typography } from 'gtomy-lib';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
-export interface PermissionGuardProps extends PropsWithChildren {
-  displayStates?: boolean;
-  requiredRole: PermRoles;
-}
-
-export function PermissionGuard({ children, displayStates, ...props }: PermissionGuardProps): ReactNode {
-  return (
-    <AuthGuard displayStates={displayStates}>
-      <PermissionGuardInnter displayStates={displayStates} {...props}>
-        {children}
-      </PermissionGuardInnter>
-    </AuthGuard>
-  );
-}
-
-function PermissionGuardInnter({ children, requiredRole, displayStates }: PermissionGuardProps): ReactNode {
+function PermissionGuardInner({ children, requiredRole, displayStates }: PermissionGuardProps): ReactNode {
   const { translations } = useAuthContext();
   const { user } = useForcedAuth();
   const { app } = useAuthContext();
-  const permissionService = useMemo(() => new PermissionService(app), [app]);
 
-  if (!permissionService.hasPermission(user, requiredRole)) {
+  const permissionService = useMemo(() => new PermissionService({ app }), [app]);
+  const hasPermission = useMemo(
+    () => permissionService.hasPermission(user, requiredRole),
+    [permissionService, requiredRole, user]
+  );
+
+  if (!hasPermission) {
     if (!displayStates) {
       return null;
     }
@@ -40,4 +30,19 @@ function PermissionGuardInnter({ children, requiredRole, displayStates }: Permis
   }
 
   return children;
+}
+
+export interface PermissionGuardProps extends PropsWithChildren {
+  displayStates?: boolean;
+  requiredRole: PermRoles;
+}
+
+export function PermissionGuard({ children, displayStates, ...props }: PermissionGuardProps): ReactNode {
+  return (
+    <AuthGuard displayStates={displayStates}>
+      <PermissionGuardInner displayStates={displayStates} {...props}>
+        {children}
+      </PermissionGuardInner>
+    </AuthGuard>
+  );
 }

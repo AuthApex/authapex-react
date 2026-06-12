@@ -68,10 +68,15 @@ export function useAuth(): UseAuth {
     authApexQueryClient
   );
   const authorizationService = useMemo(
-    () => new AuthorizationService(authApi, app, redirectUrl),
+    () =>
+      new AuthorizationService({
+        authApi,
+        app,
+        redirectUrl,
+      }),
     [app, authApi, redirectUrl]
   );
-  const permissionService = useMemo(() => new PermissionService(app), [app]);
+  const permissionService = useMemo(() => new PermissionService({ app }), [app]);
 
   useEffect(() => {
     if (status === 'error') {
