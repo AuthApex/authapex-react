@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/AuthApex/authapex-react/compare/v0.2.2...v0.3.0) (2026-06-12)
+
+
+### Bug Fixes
+
+* simplify `PermissionGuard` implementation and update `@authapex/core` to v0.3 ([ca807aa](https://github.com/AuthApex/authapex-react/commit/ca807aaf3b7caeabc01cd4842ff341bba504e832))
+
 ### [0.2.2](https://github.com/AuthApex/authapex-react/compare/v0.2.1...v0.2.2) (2026-03-14)
 
 
